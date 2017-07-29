@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:maxLength="12"
                 android:inputType="number"
-                android:hint="Addhar Number" />
+                android:hint="@string/aadhar_number" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -43,7 +43,7 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/input_layout"
             android:background="@color/colorPrimaryDark"
-            android:text="Login"
+            android:text="@string/login"
             android:textColor="#FFF" />
     </RelativeLayout>
 
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="Powered by: "
+            android:text="@string/powered_by"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="18sp"
             android:textStyle="bold" />
