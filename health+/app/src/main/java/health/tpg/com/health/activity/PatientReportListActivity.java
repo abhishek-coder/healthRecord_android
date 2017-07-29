@@ -3,10 +3,13 @@ package health.tpg.com.health.activity;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.google.gson.Gson;
 
@@ -22,6 +25,7 @@ import health.tpg.com.health.network.ApiClient;
 import health.tpg.com.health.network.ApiInterface;
 import health.tpg.com.health.pojo.Patient;
 import health.tpg.com.health.pojo.PatientCaseList;
+import health.tpg.com.health.util.SharedPrefsUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,6 +56,12 @@ public class PatientReportListActivity extends BaseActivity implements ReportAda
             }
         });
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);//Menu Resource, Menu
+        return true;
     }
 
 
@@ -115,5 +125,23 @@ public class PatientReportListActivity extends BaseActivity implements ReportAda
         intent.putExtra("id", id);
         startActivity(intent);
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                showLoading("Logout..",false);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        SharedPrefsUtils.clearPref(PatientReportListActivity.this);
+                        finish();
+                    }
+                },2000);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

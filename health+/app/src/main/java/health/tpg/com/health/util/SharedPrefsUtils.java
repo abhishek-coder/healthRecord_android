@@ -218,4 +218,11 @@ final public class SharedPrefsUtils {
         return false;
     }
 
+    public  static void clearPref(Context context){
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.clear();
+        editor.commit();
+    }
+
 }
