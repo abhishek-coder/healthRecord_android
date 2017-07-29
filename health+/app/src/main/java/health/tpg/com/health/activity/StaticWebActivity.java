@@ -17,14 +17,14 @@ import java.net.URLEncoder;
 
 import health.tpg.com.health.R;
 import health.tpg.com.health.base.BaseActivity;
+import health.tpg.com.health.network.ApiClient;
 
 public class StaticWebActivity extends BaseActivity {
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String url = getIntent().getStringExtra("url");
+        String url = ApiClient.BASE_URL + getIntent().getStringExtra("url");
         if(url.contains(".pdf")){
             WebView webView=new WebView(this);
             webView.getSettings().setJavaScriptEnabled(true);

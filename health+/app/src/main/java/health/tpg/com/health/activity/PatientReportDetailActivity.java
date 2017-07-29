@@ -46,6 +46,7 @@ public class PatientReportDetailActivity extends BaseActivity implements DetailA
     Toolbar toolbar;
     RecyclerView mRecyclerView;
     String caseId;
+    private String id;
 
 
     @Override
@@ -53,6 +54,7 @@ public class PatientReportDetailActivity extends BaseActivity implements DetailA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         caseId = getIntent().getStringExtra("caseId");
+        id = getIntent().getStringExtra("id");
         title = (TextView) findViewById(R.id.title);
         doctorname = (TextView) findViewById(R.id.doctorName);
         date = (TextView) findViewById(R.id.date);
@@ -70,38 +72,32 @@ public class PatientReportDetailActivity extends BaseActivity implements DetailA
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<Patient> call = apiService.test();
-        call.enqueue(new Callback<Patient>() {
+        Call<Case> call = apiService.getDetailByCaseId(id,caseId);
+        call.enqueue(new Callback<Case>() {
             @Override
-            public void onResponse(Call<Patient> call, Response<Patient> response) {
+            public void onResponse(Call<Case> call, Response<Case> response) {
                 hideLoading();
                 int statusCode = response.code();
-                try {
-                    AssetManager assetManager = getAssets();
-                    InputStream ims = assetManager.open("file.txt");
+                  if(statusCode == 200) {
+                      Case gsonObj = response.body();
+                      title.setText(gsonObj.getRecordDetails().getTitle());
+                      doctorname.setText(gsonObj.getRecordDetails().getDoctor_name());
+                      date.setText(gsonObj.getRecordDetails().getDate());
+                      notes.setText(gsonObj.getRecordDetails().getNotes());
+                      DetailAdapter adapter = new DetailAdapter(gsonObj.getRecordDetails().getRecordList(), PatientReportDetailActivity.this);
+                      mRecyclerView.setLayoutManager(new LinearLayoutManager(PatientReportDetailActivity.this));
+                      adapter.setOnSingleItemClickListener(PatientReportDetailActivity.this);
+                      mRecyclerView.setAdapter(adapter);
+                  }else{
+                      showMessage("Something went wrong!!!");
+                  }
 
-                    Gson gson = new Gson();
-                    Reader reader = new InputStreamReader(ims);
-
-                    Case gsonObj = gson.fromJson(reader, Case.class);
-                    title.setText(gsonObj.getRecordDetails().getTitle());
-                    doctorname.setText(gsonObj.getRecordDetails().getDoctor_name());
-                    date.setText(gsonObj.getRecordDetails().getDate());
-                    notes.setText(gsonObj.getRecordDetails().getNotes());
-                    DetailAdapter adapter = new DetailAdapter(gsonObj.getRecordDetails().getRecordList(),PatientReportDetailActivity.this);
-                    mRecyclerView.setLayoutManager(new LinearLayoutManager(PatientReportDetailActivity.this));
-                    adapter.setOnSingleItemClickListener(PatientReportDetailActivity.this);
-                    mRecyclerView.setAdapter(adapter);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
 
             }
 
             @Override
-            public void onFailure(Call<Patient> call, Throwable t) {
+            public void onFailure(Call<Case> call, Throwable t) {
                 // Log error here since request failed
                 hideLoading();
                 showMessage(t.getMessage());

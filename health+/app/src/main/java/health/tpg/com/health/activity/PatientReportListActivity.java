@@ -33,11 +33,13 @@ import retrofit2.Response;
 public class PatientReportListActivity extends BaseActivity implements ReportAdapter.onItemClickListner {
     RecyclerView mRecyclerView;
     SwipeRefreshLayout mSwipeRefreshLayout;
+    private String id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        id = getIntent().getStringExtra("id");
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         loadData(false);
@@ -55,44 +57,39 @@ public class PatientReportListActivity extends BaseActivity implements ReportAda
 
     private void loadData(boolean isfromSwipeToRefresh) {
 
-            if (!isfromSwipeToRefresh) showLoading("Featching data...", false);
-            ApiInterface apiService =
-                    ApiClient.getClient().create(ApiInterface.class);
+        if (!isfromSwipeToRefresh) showLoading("Featching data...", false);
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
 
-            Call<Patient> call = apiService.test();
-            call.enqueue(new Callback<Patient>() {
-                @Override
-                public void onResponse(Call<Patient> call, Response<Patient> response) {
-                    hideLoading();
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    int statusCode = response.code();
-                    try {
-                        AssetManager assetManager = getAssets();
-                        InputStream ims = assetManager.open("file1.txt");
+        Call<PatientCaseList> call = apiService.getListOfTreatmentById(id);
+        call.enqueue(new Callback<PatientCaseList>() {
+            @Override
+            public void onResponse(Call<PatientCaseList> call, Response<PatientCaseList> response) {
+                hideLoading();
+                mSwipeRefreshLayout.setRefreshing(false);
+                int statusCode = response.code();
 
-                        Gson gson = new Gson();
-                        Reader reader = new InputStreamReader(ims);
-
-                        PatientCaseList gsonObj = gson.fromJson(reader, PatientCaseList.class);
-                        ReportAdapter adapter = new ReportAdapter(gsonObj.getCases(), PatientReportListActivity.this);
-                        adapter.setOnSingleItemClickListener(PatientReportListActivity.this);
-                        mRecyclerView.setLayoutManager(new LinearLayoutManager(PatientReportListActivity.this));
-                        mRecyclerView.setAdapter(adapter);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-
+                if (statusCode == 200) {
+                    PatientCaseList gsonObj = response.body();
+                    ReportAdapter adapter = new ReportAdapter(gsonObj.getCases(), PatientReportListActivity.this);
+                    adapter.setOnSingleItemClickListener(PatientReportListActivity.this);
+                    mRecyclerView.setLayoutManager(new LinearLayoutManager(PatientReportListActivity.this));
+                    mRecyclerView.setAdapter(adapter);
+                } else {
+                    showMessage("Something went wrong!!!");
                 }
 
-                @Override
-                public void onFailure(Call<Patient> call, Throwable t) {
-                    // Log error here since request failed
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    hideLoading();
-                    showMessage(t.getMessage());
-                }
-            });
+
+            }
+
+            @Override
+            public void onFailure(Call<PatientCaseList> call, Throwable t) {
+                // Log error here since request failed
+                mSwipeRefreshLayout.setRefreshing(false);
+                hideLoading();
+                showMessage(t.getMessage());
+            }
+        });
     }
 
     @Override
@@ -113,8 +110,9 @@ public class PatientReportListActivity extends BaseActivity implements ReportAda
     @Override
     public void onItemClickListner(String caseId) {
 
-        Intent intent = new Intent(PatientReportListActivity.this,PatientReportDetailActivity.class);
-        intent.putExtra("caseId",caseId);
+        Intent intent = new Intent(PatientReportListActivity.this, PatientReportDetailActivity.class);
+        intent.putExtra("caseId", caseId);
+        intent.putExtra("id", id);
         startActivity(intent);
 
     }

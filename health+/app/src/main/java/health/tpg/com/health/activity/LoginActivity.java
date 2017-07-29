@@ -49,37 +49,29 @@ public class LoginActivity extends BaseActivity {
                     ApiInterface apiService =
                             ApiClient.getClient().create(ApiInterface.class);
 
-                    Call<Patient> call = apiService.test();
+                    Call<Patient> call = apiService.loginbyAdhar("123456789101");
                     call.enqueue(new Callback<Patient>() {
                         @Override
                         public void onResponse(Call<Patient> call, Response<Patient> response) {
                             hideLoading();
                             int statusCode = response.code();
-                            try {
-                                AssetManager assetManager = getAssets();
-                                InputStream ims = assetManager.open("file.txt");
 
-                                Gson gson = new Gson();
-                                Reader reader = new InputStreamReader(ims);
-
-                                Case gsonObj = gson.fromJson(reader, Case.class);
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
                             if (statusCode == 200) {
                                 Patient patient = response.body();
                                 SharedPrefsUtils.setStringPreference(LoginActivity.this, AppConstants.Prefs.PATIENT_ID, patient.getId());
                                 SharedPrefsUtils.setStringPreference(LoginActivity.this, AppConstants.Prefs.NAME, patient.getMName());
+                                Intent intent = new Intent(LoginActivity.this, PatientReportListActivity.class);
+                                intent.putExtra("id", patient.getId());
+                                startActivity(intent);
+                                finish();
+                            }else{
+                                showMessage("Something went wrong!!!");
                             }
-                            Intent intent = new Intent(LoginActivity.this, PatientReportListActivity.class);
-                            startActivity(intent);
-                            finish();
+
                         }
 
                         @Override
                         public void onFailure(Call<Patient> call, Throwable t) {
-                            // Log error here since request failed
                             hideLoading();
                             showMessage(t.getMessage());
                         }

@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.Window;
 import android.view.WindowManager;
 
 import health.tpg.com.health.R;
 import health.tpg.com.health.base.BaseActivity;
+import health.tpg.com.health.util.AppConstants;
+import health.tpg.com.health.util.SharedPrefsUtils;
 
 public class SplashActivity extends BaseActivity {
 
@@ -22,7 +25,14 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this,LoginActivity.class);
+                String id = SharedPrefsUtils.getStringPreference(SplashActivity.this,AppConstants.Prefs.PATIENT_ID);
+                Intent intent;
+                if(TextUtils.isEmpty(id)) {
+                     intent = new Intent(SplashActivity.this, LoginActivity.class);
+                }else{
+                    intent = new Intent(SplashActivity.this, PatientReportListActivity.class);
+                    intent.putExtra("id",id);
+                }
                 startActivity(intent);
                 finish();
             }
