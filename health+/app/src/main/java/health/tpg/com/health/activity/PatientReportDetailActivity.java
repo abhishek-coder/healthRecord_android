@@ -9,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +49,7 @@ public class PatientReportDetailActivity extends BaseActivity implements DetailA
     RecyclerView mRecyclerView;
     String caseId;
     private String id;
+    private LinearLayout header;
 
 
     @Override
@@ -56,6 +59,7 @@ public class PatientReportDetailActivity extends BaseActivity implements DetailA
         caseId = getIntent().getStringExtra("caseId");
         id = getIntent().getStringExtra("id");
         title = (TextView) findViewById(R.id.title);
+        header = (LinearLayout) findViewById(R.id.header);
         doctorname = (TextView) findViewById(R.id.doctorName);
         date = (TextView) findViewById(R.id.date);
         notes = (TextView) findViewById(R.id.notes);
@@ -79,6 +83,7 @@ public class PatientReportDetailActivity extends BaseActivity implements DetailA
                 hideLoading();
                 int statusCode = response.code();
                   if(statusCode == 200) {
+                      header.setVisibility(View.VISIBLE);
                       Case gsonObj = response.body();
                       title.setText(gsonObj.getRecordDetails().getTitle());
                       doctorname.setText(gsonObj.getRecordDetails().getDoctor_name());

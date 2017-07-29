@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">health+</string>
+    <string name="app_name">Health+</string>
     <string name="loading">Processing</string>
     <string name="aadhar_number">Aadhar Number</string>
     <string name="login">Login</string>

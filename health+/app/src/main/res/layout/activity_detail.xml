@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/toolbar"
             android:orientation="vertical"
+            android:visibility="gone"
             android:padding="8dp">
 
             <TableLayout
