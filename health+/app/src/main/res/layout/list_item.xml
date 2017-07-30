@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingRight="16dp"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="#696969" />
 
         <TextView
             android:id="@+id/date"
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:maxLines="3"
             android:paddingRight="16dp"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="#696969" />
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

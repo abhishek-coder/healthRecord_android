@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
     android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context="health.tpg.com.health.activity.LoginActivity">
 
     <ImageView
@@ -26,13 +26,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/addharNoTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/aadhar_number"
+                    android:layout_weight="8"
+                    android:inputType="number"
+                    android:maxLength="12" />
+
+                <ProgressBar android:id="@+id/progressbar"
+                    android:layout_gravity="right"
+                    android:layout_width="30dp"
+                    android:visibility="gone"
+                    android:layout_height="30dp" />
+            </FrameLayout>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/input_layout">
+
             <EditText
-                android:id="@+id/addharNoTxt"
+                android:id="@+id/otp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="12"
+                android:hint="OTP"
                 android:inputType="number"
-                android:hint="@string/aadhar_number" />
+                android:maxLength="12" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -41,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/input_layout"
+            android:layout_below="@+id/input_layout2"
             android:background="@color/colorPrimaryDark"
             android:text="@string/login"
             android:textColor="#FFF" />
