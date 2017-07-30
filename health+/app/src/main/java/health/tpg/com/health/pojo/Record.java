@@ -14,5 +14,5 @@ public class Record {
     @SerializedName("prescription")
     Detail prescription;
     @SerializedName("symptoms")
-    Detail symptoms;
+    String symptoms;
 }

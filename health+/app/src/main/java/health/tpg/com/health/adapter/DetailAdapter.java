@@ -32,7 +32,6 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.ViewHolder
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private Button btnSymtomsReport;
         TextView title;
         TextView predata;
         TextView symtomsdata;
@@ -46,7 +45,6 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.ViewHolder
             predata = (TextView) v.findViewById(R.id.predata);
             btnCheckReport = (Button) v.findViewById(R.id.checkreport);
             symtomsdata = (TextView) v.findViewById(R.id.symtomsdata);
-            btnSymtomsReport = (Button) v.findViewById(R.id.symtomsReport);
             view = v;
         }
     }
@@ -85,23 +83,10 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.ViewHolder
             holder.predata.setVisibility(View.GONE);
             holder.btnCheckReport.setVisibility(View.GONE);
         }
-        if (list.get(position).getSymptoms().getDetial() != null) {
-            holder.symtomsdata.setText(list.get(position).getSymptoms().getDetial());
-            if (list.get(position).getSymptoms().getUrl() != null) {
-                holder.btnSymtomsReport.setVisibility(View.VISIBLE);
-            } else {
-                holder.btnSymtomsReport.setVisibility(View.GONE);
-            }
-
-            holder.btnSymtomsReport.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    itemClickListner.onItemClickListner(list.get(position).getSymptoms().getUrl());
-                }
-            });
+        if (list.get(position).getSymptoms() != null) {
+            holder.symtomsdata.setText(list.get(position).getSymptoms());
         } else {
             holder.symtomsdata.setVisibility(View.GONE);
-            holder.btnSymtomsReport.setVisibility(View.GONE);
         }
     }
 

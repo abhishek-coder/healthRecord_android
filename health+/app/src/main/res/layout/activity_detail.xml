@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:local="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/swipeRefreshLayout"
+    android:background="#ffffff"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -133,6 +133,7 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/header"
             android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
             android:nestedScrollingEnabled="false">
 
         </android.support.v7.widget.RecyclerView>

@@ -24,10 +24,10 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activity.PatientReportListActivity"
-            android:label="ReportList"></activity>
+            android:label="H+ Reports"></activity>
         <activity
             android:name=".activity.PatientReportDetailActivity"
-            android:label="ReportDetails"
+            android:label="Details"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activity.StaticWebActivity"
